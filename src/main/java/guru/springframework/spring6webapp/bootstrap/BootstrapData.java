@@ -49,13 +49,23 @@ public class BootstrapData implements CommandLineRunner {
         Author rodSaved = authorRepository.save(rod);
         Book noEJBSaved = bookRepository.save(noEJB);
 
+        erickSaved.getBooks().add(dddSaved);
+        rodSaved.getBooks().add(noEJBSaved);
+        dddSaved.getAuthors().add(erickSaved);
+        noEJBSaved.getAuthors().add(rodSaved);
+
         Publisher publisher = new Publisher();
         publisher.setPublisherName("My Publisher");
         publisher.setAddress("123 Main");
-        publisherRepository.save(publisher);
+        Publisher savedPublisher = publisherRepository.save(publisher);
 
-        erickSaved.getBooks().add(dddSaved);
-        rodSaved.getBooks().add(noEJBSaved);
+        dddSaved.setPublisher(publisher);
+        noEJBSaved.setPublisher(publisher);
+
+        authorRepository.save(erickSaved);
+        authorRepository.save(rodSaved);
+        bookRepository.save(dddSaved);
+        bookRepository.save(noEJBSaved);
 
         System.out.println("In Bootstrap");
         System.out.println("Author Count: " + authorRepository.count());
